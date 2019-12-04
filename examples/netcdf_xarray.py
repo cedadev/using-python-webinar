@@ -7,3 +7,64 @@ __date__ = '03 Dec 2019'
 __copyright__ = 'Copyright 2018 United Kingdom Research and Innovation'
 __license__ = 'BSD - see LICENSE file in top-level package directory'
 __contact__ = 'richard.d.smith@stfc.ac.uk'
+
+import xarray as xr
+
+
+def extract_uk_timeseries(files):
+    """
+    Extract the uk region from a series of NetCDF files
+    :param files:
+    :return:
+    """
+
+    # UK coordinates
+    min_lon, max_lon = -11, 3
+    min_lat, max_lat = 49, 60
+
+    # Open all files into one dataset
+    with xr.open_mfdataset(files, combine='by_coords') as ds:
+
+        # Reassign the longitude coordinates to give a -180:180 grid instead
+        # of 0:360
+        ds = ds.roll(lon=(ds.dims['lon'] // 2), roll_coords=True)
+
+        new_lons = ds.lon.values[:]
+        new_lons[:ds.dims['lon'] // 2] = new_lons[:ds.dims['lon'] // 2] - 360
+        ds = ds.assign_coords(lon=new_lons)
+
+        # Select the UK coordinates
+        uk_region = ds.sel(lat=slice(min_lat, max_lat), lon=slice(min_lon, max_lon))
+
+    return uk_region
+
+
+if __name__ == '__main__':
+
+    import argparse
+    import os
+    import glob
+
+    parser = argparse.ArgumentParser(
+        description='Extract a time series of annual surface temperature over the UK')
+
+    # Add command line arguments
+    parser.add_argument('directory',
+                        help='Directory containing source files')
+
+    parser.add_argument('-o',
+                        help='Directory to output the netcdf file, defaults to the run directory',
+                        default='.')
+
+    args = parser.parse_args()
+
+    files = glob.glob(os.path.join(args.directory, '*.nc'))
+
+    uk_region = extract_uk_timeseries(files)
+
+    # Resample to get average annual temperature
+    uk_region = uk_region.resample(time='1Y').mean()
+
+    # Write the output
+    uk_region.to_netcdf('uk_annual_tas.nc')
+

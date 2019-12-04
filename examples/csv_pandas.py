@@ -11,6 +11,7 @@ __contact__ = 'richard.d.smith@stfc.ac.uk'
 
 import pandas as pd
 from dateutil.parser import parse
+import os
 
 
 def process_csv(filename, header_line):
@@ -44,12 +45,35 @@ def process_csv(filename, header_line):
         index=[year]
     )
 
+def get_station_name(directory):
+    """
+    Takes directory of format:
+    /a/b/.../station_name/c
+
+    and returns the station_name
+
+    :param directory:
+    :return: station_name
+    """
+
+    # Remove trailing path seperator
+    if directory.endswith('/'):
+        directory = directory[:-1]
+
+    # Extract the directory above
+    directory = os.path.dirname(directory)
+
+    # Extract the station name
+    station_name = os.path.basename(directory)
+
+    return station_name
+
 
 if __name__ == '__main__':
 
     import argparse
-    import os
     import matplotlib.pyplot as plt
+    import glob
 
     parser = argparse.ArgumentParser(
         description='Generate a plot of yearly, max, mean and '
@@ -66,18 +90,9 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    # Remove trailing path seperator
-    if args.directory.endswith(os.path.sep):
-        args.directory = args.directory[:-1]
 
     # Get a list of all the csv files in the directory
-    files = os.listdir(args.directory)
-
-    # Join the directory to the filenames
-    files = [os.path.join(args.directory, file) for file in files]
-
-    # Filter files to make sure they they are all csv files
-    files = filter(lambda x: os.path.isfile(x), files)
+    files = glob.glob(os.path.join(args.directory, '*.csv'))
 
     precip_ts = pd.DataFrame(columns=['min','max','mean'])
 
@@ -94,11 +109,9 @@ if __name__ == '__main__':
     max_year = precip_ts.index.max()
 
     # Get the station name
-    station_name = os.path.basename(
-        os.path.dirname(args.directory)
-    )
+    station_name = get_station_name(args.directory)
 
-    # Plot the timeseries
+    # Plot the time series
     precip_ts.plot()
     plt.title(f'Annual Precipitation from {min_year} to {max_year}: {station_name}')
 
