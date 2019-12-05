@@ -40,7 +40,7 @@ You can use Xarray to work with NetCDF files and extract specific regions and do
 This example uses Xarray to read a timeseries of NetCDF files, extract the UK region and calculate the 
 annual mean temperature for each grid box. The result is then written to a new NetCDF file.
 
-Example path: <span style=“color:red;”>`/badc/cmip6/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-MM/amip/r1i1p1f3/Amon/tas/gn/v20190903`</span>
+Example path: `/badc/cmip6/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-MM/amip/r1i1p1f3/Amon/tas/gn/v20190903`
 
 ### Usage:
 <pre>
