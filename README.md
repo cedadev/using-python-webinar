@@ -3,20 +3,22 @@
 A selection of scripts to serve as an example of some of the things that you can
 do on JASMIN.
 
+These scripts have been tested with specific paths and will work on the supplied 
+example paths. As each dataset is different, you will need to modify the code to
+use some of these scripts in other places.
+
+These should serve as a base to give some examples which you can use.
+
 
 ## Setting up the environment
 
 These scripts were created with a newer version on xarray. This means in order
-to run them, you will need to create a python3 virtual environment.
+to run them, you will need to create a python3 virtual environment. For convenience,
+there is a setup_environment script included with the repo which should make this
+process easy.
 
 ```bash
-module load jaspy
-```
-
-```bash
-python -m venv venv --system-site-packages
-
-. venv/bin/activate
+. setup_environment.sh
 ```
 
 ## Using Pandas to process CSV files
@@ -32,6 +34,10 @@ The headers are ignored and the data is read into a Pandas DataFrame.
 Example path: `/badc/ukmo-midas-open/data/uk-hourly-rain-obs/dataset-version-201908/oxfordshire/00605_brize-norton/qc-version-1`
 
 ### Usage:
+
+```bash
+python csv_pandas.py /badc/ukmo-midas-open/data/uk-hourly-rain-obs/dataset-version-201908/oxfordshire/00605_brize-norton/qc-version-1
+```
 
 <pre>
 usage: csv_pandas.py [-h] [-o OUTPUT] directory
@@ -59,6 +65,11 @@ annual mean temperature for each grid box. The result is then written to a new N
 Example path: `/badc/cmip6/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-MM/amip/r1i1p1f3/Amon/tas/gn/v20190903`
 
 ### Usage:
+
+```bash
+python netcdf_xarray.py /badc/cmip6/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-MM/amip/r1i1p1f3/Amon/tas/gn/v20190903
+```
+
 <pre>
 usage: netcdf_xarray.py [-h] [-o OUTPUT] directory
 <br>
@@ -86,6 +97,11 @@ the wind variable.
 Example path: `/badc/ecmwf-era-interim/data/wa/as/2017/04/04`
 
 ### Usage:
+
+```bash
+python data_visualisation.py /badc/ecmwf-era-interim/data/wa/as/2017/04/04 --bbox 70 40 20 -20
+```
+
 <pre>
 usage: data_visualisation.py [-h] [--timestep TIMESTEP]
                              [--bbox COORDINATE COORDINATE COORDINATE COORDINATE]
@@ -124,6 +140,11 @@ linux command.
 Example path: `/neodc/esacci/sea_ice/data/`
 
 ### Usage:
+
+```bash
+python file_listing.py /neodc/esacci/sea_ice/data/
+```
+
 <pre>
 usage: file_listing.py [-h] [-o OUTPUT] directory
 <br>
