@@ -20,6 +20,8 @@ def get_options(path):
     # Expand any '*' characters
     items = glob.glob(path)
 
+    items = [x for x in items if os.path.isdir(x)]
+
     # Loop through directories and retrieve contents
     # Scandir is a lightweight way to scan the file system
     for directory in items:
@@ -82,7 +84,7 @@ if __name__ == '__main__':
         options = get_options(os.path.join(*path))
 
     # Generate the glob pattern
-    glob_pattern = os.path.join(*path, '*.n')
+    glob_pattern = os.path.join(*path, '*.nc')
 
     # Display linux command to get the required files
     print(f'Command to get selected files: ls -l {glob_pattern}\n')
