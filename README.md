@@ -3,6 +3,22 @@
 A selection of scripts to serve as an example of some of the things that you can
 do on JASMIN.
 
+
+## Setting up the environment
+
+These scripts were created with a newer version on xarray. This means in order
+to run them, you will need to create a python3 virtual environment.
+
+```bash
+module load jaspy
+```
+
+```bash
+python -m venv venv --system-site-packages
+
+. venv/bin/activate
+```
+
 ## Using Pandas to process CSV files
 
 Pandas is a really powerful library for creating and manipulating data tables.
