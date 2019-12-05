@@ -36,7 +36,7 @@ def process_csv(filename, header_line):
     mean_p = precip.mean()
 
     # Extract the year of the data from the first timestamp in the file
-    date = df.ob_date.min()
+    date = df.ob_end_time.min()
     year = parse(date).year
 
     return pd.DataFrame(
