@@ -62,6 +62,11 @@ def check_timestep(value):
 
 
 if __name__ == '__main__':
+
+    # Need to set backend for use on JASMIN
+    import matplotlib
+    matplotlib.use('agg')
+
     import os
     import glob
     import cartopy.crs as ccrs

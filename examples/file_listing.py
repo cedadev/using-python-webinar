@@ -54,7 +54,6 @@ if __name__ == '__main__':
 
     # Get the first options *path turns list
     # into a set of arguments for the function
-    print(os.path.join(*path))
     options = get_options(os.path.join(*path))
 
     while options:

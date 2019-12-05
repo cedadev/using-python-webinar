@@ -72,6 +72,11 @@ def get_station_name(directory):
 if __name__ == '__main__':
 
     import argparse
+
+    # Need to set backend for use on JASMIN
+    import matplotlib
+    matplotlib.use('agg')
+
     import matplotlib.pyplot as plt
     import glob
 
