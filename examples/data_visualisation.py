@@ -79,9 +79,11 @@ if __name__ == '__main__':
     parser.add_argument('directory',
                         help='Directory containing source files')
 
-    parser.add_argument('--timestep', type=check_timestep, help='Options: 0000 0600 1200 1800')
+    parser.add_argument('--timestep', type=check_timestep, help='Options: 0000 0600 1200 1800. Default: 0000', default='0000')
 
-    parser.add_argument('--bbox',nargs=4, metavar='COORDINATE', help='Format: N,S,E,W')
+    parser.add_argument('--bbox',nargs=4, metavar='COORDINATE', help='Format: N,S,E,W. Default: global', default=[90,-90, 180, -180])
+
+    parser.add_argument('--output', default='.', help='Directory to place the plot. Default: .')
 
     args = parser.parse_args()
 
@@ -107,6 +109,8 @@ if __name__ == '__main__':
     # Add coastlines
     ax.coastlines()
 
-    # Display plot
-    plt.show()
+    # Output file
+    output = os.path.join(args.output, f'{args.timestep}_wind.png')
 
+    # Save plot
+    plt.savefig(output)
