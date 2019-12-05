@@ -81,8 +81,14 @@ if __name__ == '__main__':
         # Get next options
         options = get_options(os.path.join(*path))
 
+    # Generate the glob pattern
+    glob_pattern = os.path.join(*path, '*.n')
+
+    # Display linux command to get the required files
+    print(f'Command to get selected files: ls -l {glob_pattern}\n')
+
     # Get list of files that match your request
-    files = glob.glob(os.path.join(*path, '*.nc'))
+    files = glob.glob(glob_pattern)
 
     # Output to file if -o option set
     if args.output:

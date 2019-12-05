@@ -83,8 +83,10 @@ if __name__ == '__main__':
     # Get the files to process
     files = glob.glob(os.path.join(args.directory, f'*{args.timestep}.nc'))
 
-    # Create the bounding box
+    # Turn bounding box arguments into integers
     coords = [int(x) for x in args.bbox]
+
+    # Create the bounding box
     bbox = BoundingBox(*coords)
 
     # Extract the region of interest

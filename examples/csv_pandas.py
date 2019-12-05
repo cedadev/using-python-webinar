@@ -78,14 +78,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Generate a plot of yearly, max, mean and '
                     'min from a series of csv files in the midas open'
-                    'precipitation timeseries')
+                    ' precipitation timeseries')
 
     # Add command line arguments
     parser.add_argument('directory',
                         help='Directory containing csv files')
 
-    parser.add_argument('-o',
-                        help='Directory to output the graph, defaults to the run directory',
+    parser.add_argument('-o', '--output',
+                        help='Directory to output the graph, defaults to the run directory. Default: [.]',
                         default='.')
 
     args = parser.parse_args()
@@ -119,5 +119,5 @@ if __name__ == '__main__':
     filename = f'{station_name}_precipitation_{min_year}_{max_year}.png'
 
     # Save the plot
-    plt.savefig(filename)
+    plt.savefig(os.path.join(args.output,filename))
 

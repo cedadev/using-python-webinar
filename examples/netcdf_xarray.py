@@ -52,8 +52,8 @@ if __name__ == '__main__':
     parser.add_argument('directory',
                         help='Directory containing source files')
 
-    parser.add_argument('-o',
-                        help='Directory to output the netcdf file, defaults to the run directory',
+    parser.add_argument('-o', '--output',
+                        help='Directory to output the netcdf file, defaults to the run directory. Default [.]',
                         default='.')
 
     args = parser.parse_args()
@@ -66,5 +66,6 @@ if __name__ == '__main__':
     uk_region = uk_region.resample(time='1Y').mean()
 
     # Write the output
-    uk_region.to_netcdf('uk_annual_tas.nc')
+    output_path = os.path.join(args.output, 'uk_annual_tas.nc')
+    uk_region.to_netcdf(output_path)
 
