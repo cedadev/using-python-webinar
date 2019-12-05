@@ -62,12 +62,13 @@ You can use Xarray to work with NetCDF files and extract specific regions and do
 This example uses Xarray to read a timeseries of NetCDF files, extract the UK region and calculate the 
 annual mean temperature for each grid box. The result is then written to a new NetCDF file.
 
-Example path: `/badc/cmip6/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-MM/amip/r1i1p1f3/Amon/tas/gn/v20190903`
+Example path: `/badc/cmip5/data/cmip5/output1/BCC/bcc-csm1-1/amip/mon/atmos/Amon/r1i1p1/latest/tas`
+
 
 ### Usage:
 
 ```bash
-python netcdf_xarray.py /badc/cmip6/data/CMIP6/CMIP/MOHC/HadGEM3-GC31-MM/amip/r1i1p1f3/Amon/tas/gn/v20190903
+python netcdf_xarray.py /badc/cmip5/data/cmip5/output1/BCC/bcc-csm1-1/amip/mon/atmos/Amon/r1i1p1/latest/tas
 ```
 
 <pre>

@@ -19,8 +19,8 @@ def extract_uk_timeseries(files):
     """
 
     # UK coordinates
-    min_lon, max_lon = -11, 3
-    min_lat, max_lat = 49, 60
+    min_lon, max_lon = -12, 3
+    min_lat, max_lat = 48, 60
 
     # Open all files into one dataset
     with xr.open_mfdataset(files, combine='by_coords') as ds:
