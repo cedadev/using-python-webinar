@@ -9,6 +9,9 @@ __license__ = 'BSD - see LICENSE file in top-level package directory'
 __contact__ = 'richard.d.smith@stfc.ac.uk'
 
 import xarray as xr
+import argparse
+import os
+import glob
 
 
 def extract_uk_timeseries(files):
@@ -39,12 +42,11 @@ def extract_uk_timeseries(files):
     return uk_region
 
 
-if __name__ == '__main__':
-
-    import argparse
-    import os
-    import glob
-
+def parse_args():
+    """
+    Parse command line arguments
+    :return: Command line arguments object
+    """
     parser = argparse.ArgumentParser(
         description='Extract a time series of annual surface temperature over the UK')
 
@@ -56,7 +58,15 @@ if __name__ == '__main__':
                         help='Directory to output the netcdf file, defaults to the run directory. Default [.]',
                         default='.')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    """
+    Main script
+    """
+
+    args = parse_args()
 
     files = glob.glob(os.path.join(args.directory, '*.nc'))
 
@@ -68,4 +78,10 @@ if __name__ == '__main__':
     # Write the output
     output_path = os.path.join(args.output, 'uk_annual_tas.nc')
     uk_region.to_netcdf(output_path)
+
+if __name__ == '__main__':
+    main()
+
+
+
 

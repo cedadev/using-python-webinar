@@ -11,6 +11,8 @@ __contact__ = 'richard.d.smith@stfc.ac.uk'
 
 import os
 import glob
+import argparse
+
 
 def get_options(path):
 
@@ -34,9 +36,12 @@ def get_options(path):
     return sorted(dirs)
 
 
-if __name__ == '__main__':
+def parse_args():
+    """
+    Parse command line arguments
 
-    import argparse
+    :return: Command line arguments object
+    """
 
     parser = argparse.ArgumentParser(
         description='Extract and area and timestamp and plot')
@@ -47,7 +52,15 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output',
                         help='Output list of desired files')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    """
+    The main script
+    """
+
+    args = parse_args()
 
     # Put the start directory in a list to build the selected path
     path = [args.directory]
@@ -100,3 +113,8 @@ if __name__ == '__main__':
     else:
         for file in files:
             print(file)
+
+
+
+if __name__ == '__main__':
+    main()
