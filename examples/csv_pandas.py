@@ -12,9 +12,18 @@ __contact__ = 'richard.d.smith@stfc.ac.uk'
 import pandas as pd
 from dateutil.parser import parse
 import os
+import argparse
+import glob
+from tqdm import tqdm
+
+# Need to set backend for use on JASMIN
+import matplotlib
+matplotlib.use('agg')
+
+import matplotlib.pyplot as plt
 
 
-def process_csv(filename, header_line):
+def extract_annual_statistics(filename, header_line):
     """
     Read the csv file and extract the min, max and mean
     precipitation for that year.
@@ -45,6 +54,7 @@ def process_csv(filename, header_line):
         index=[year]
     )
 
+
 def get_station_name(directory):
     """
     Takes directory of format:
@@ -69,16 +79,31 @@ def get_station_name(directory):
     return station_name
 
 
-if __name__ == '__main__':
+def process_files(files):
+    """
+    Process list of files
+    :param files: list of files
 
-    import argparse
+    :return: Precipitation time series pandas DataFrame
+    """
 
-    # Need to set backend for use on JASMIN
-    import matplotlib
-    matplotlib.use('agg')
+    precip_ts = pd.DataFrame(columns=['min', 'max', 'mean'])
 
-    import matplotlib.pyplot as plt
-    import glob
+    for file in tqdm(files, desc='Processing files'):
+        # Extract the annual values from the file
+        annual_data = extract_annual_statistics(file, 61)
+
+        # Merge the extracted dataframe into the timeseries
+        precip_ts = precip_ts.append(annual_data)
+
+    return precip_ts
+
+
+def parse_args():
+    """
+    Get the command line arguments
+    :return: arguments object
+    """
 
     parser = argparse.ArgumentParser(
         description='Generate a plot of yearly, max, mean and '
@@ -93,21 +118,22 @@ if __name__ == '__main__':
                         help='Directory to output the graph, defaults to the run directory. Default: [.]',
                         default='.')
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
+
+def main():
+    """
+    The main script
+    """
+
+    # Get command line arguments
+    args = parse_args()
 
     # Get a list of all the csv files in the directory
     files = glob.glob(os.path.join(args.directory, '*.csv'))
 
-    precip_ts = pd.DataFrame(columns=['min','max','mean'])
-
-    for file in files:
-
-        # Extract the annual values from the file
-        annual_data = process_csv(file, 61)
-
-        # Merge the extracted dataframe into the timeseries
-        precip_ts = precip_ts.append(annual_data)
+    # Extract the precipitation time series
+    precip_ts = process_files(files)
 
     # Extract the start and end years
     min_year = precip_ts.index.min()
@@ -125,4 +151,13 @@ if __name__ == '__main__':
 
     # Save the plot
     plt.savefig(os.path.join(args.output,filename))
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
 
