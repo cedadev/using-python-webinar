@@ -115,8 +115,9 @@ def main():
     args = parse_args()
 
     # Get the files to process
-    print(f'[INFO] Finding files...')
-    files = glob.glob(os.path.join(args.directory, f'*{args.timestep}.nc'))
+    print('[INFO] Finding files...')
+    fpath = os.path.join(args.directory, f'*{args.timestep}.nc')
+    files = glob.glob(fpath)
 
     bbox = create_bounding_box(args.bbox)
 
@@ -125,7 +126,7 @@ def main():
     roi = extract_area(files, bbox)
 
     # Plot wind variable
-    print(f'[INFO] Generating plot')
+    print('[INFO] Generating plot')
     ax = plt.axes(projection=ccrs.PlateCarree())
     roi.WIND.isel(t=0, ht=0).plot.contourf(ax=ax)
 

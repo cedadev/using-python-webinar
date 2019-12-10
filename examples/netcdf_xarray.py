@@ -68,8 +68,10 @@ def main():
 
     args = parse_args()
 
+    # Get list of files
     files = glob.glob(os.path.join(args.directory, '*.nc'))
 
+    print('[INFO] Extracting UK time series...')
     uk_region = extract_uk_timeseries(files)
 
     # Resample to get average annual temperature
@@ -78,6 +80,9 @@ def main():
     # Write the output
     output_path = os.path.join(args.output, 'uk_annual_tas.nc')
     uk_region.to_netcdf(output_path)
+
+    print(f'[INFO] Output file written to {output_path}')
+
 
 if __name__ == '__main__':
     main()

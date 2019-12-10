@@ -107,13 +107,9 @@ def main():
     # Output to file if -o option set
     if args.output:
         with open(args.output, 'w') as writer:
-
             writer.writelines(map(lambda x: x+'\n', files))
 
-    else:
-        for file in files:
-            print(file)
-
+        print(f'[INFO] Output file list to {args.output}')
 
 
 if __name__ == '__main__':
