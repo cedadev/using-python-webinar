@@ -14,6 +14,7 @@ from dateutil.parser import parse
 import os
 import argparse
 import glob
+from tqdm import tqdm
 
 # Need to set backend for use on JASMIN
 import matplotlib
@@ -88,7 +89,7 @@ def process_files(files):
 
     precip_ts = pd.DataFrame(columns=['min', 'max', 'mean'])
 
-    for file in files:
+    for file in tqdm(files, desc='Processing files'):
         # Extract the annual values from the file
         annual_data = extract_annual_statistics(file, 61)
 
