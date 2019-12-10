@@ -1,3 +1,10 @@
 venv
 data
 .idea
+
+*.png
+*.nc
+*.csv
+examples/*.png
+examples/*.nc
+examples/*.csv
