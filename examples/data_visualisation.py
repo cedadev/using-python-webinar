@@ -42,7 +42,6 @@ def extract_area(files, bbox):
     :return: xarray.Dataset
     """
 
-
     with xr.open_mfdataset(files, combine='by_coords') as ds:
 
         # Reassign the longitude coordinates to give a -180:180 grid instead
@@ -116,14 +115,17 @@ def main():
     args = parse_args()
 
     # Get the files to process
+    print(f'[INFO] Finding files...')
     files = glob.glob(os.path.join(args.directory, f'*{args.timestep}.nc'))
 
     bbox = create_bounding_box(args.bbox)
 
     # Extract the region of interest
+    print(f'[INFO] Extracting region of interest: {bbox}')
     roi = extract_area(files, bbox)
 
     # Plot wind variable
+    print(f'[INFO] Generating plot')
     ax = plt.axes(projection=ccrs.PlateCarree())
     roi.WIND.isel(t=0, ht=0).plot.contourf(ax=ax)
 
@@ -138,6 +140,7 @@ def main():
 
     # Save plot
     plt.savefig(output)
+    print(f'[INFO] Saved output to: {output}')
 
 
 if __name__ == '__main__':

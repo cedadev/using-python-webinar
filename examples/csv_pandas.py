@@ -133,6 +133,7 @@ def main():
     files = glob.glob(os.path.join(args.directory, '*.csv'))
 
     # Extract the precipitation time series
+    print(f'[INFO] Processing {len(files)} input files...')
     precip_ts = process_files(files)
 
     # Extract the start and end years
@@ -143,6 +144,7 @@ def main():
     station_name = get_station_name(args.directory)
 
     # Plot the time series
+    print(f'[INFO] Generating plot of annual precipitation')
     precip_ts.plot()
     plt.title(f'Annual Precipitation from {min_year} to {max_year}: {station_name}')
 
@@ -150,10 +152,13 @@ def main():
     filename = f'{station_name}_precipitation_{min_year}_{max_year}.png'
 
     # Save the plot
-    plt.savefig(os.path.join(args.output,filename))
+    output_path = os.path.join(args.output,filename)
+    plt.savefig(output_path)
+    print(f'[INFO] Saved output to: {output_path}')
 
 
 if __name__ == '__main__':
+
     main()
 
 

@@ -10,15 +10,27 @@ use some of these scripts in other places.
 These should serve as a base to give some examples which you can use.
 
 
-## Setting up the environment
+## Creating the environment
 
-These scripts were created with a newer version on xarray. This means in order
-to run them, you will need to create a python3 virtual environment. For convenience,
-there is a setup_environment script included with the repo which should make this
+These scripts were created with a newer version of Xarray. This means in order
+to run them, you will need to create a Python3 virtual environment. For convenience,
+there is a `create-env.sh` script included with the repo which should make this
 process easy.
 
 ```bash
-. setup_environment.sh
+./create-env.sh
+```
+
+NOTE: you only need to run the above script once.
+
+## Setting the environment
+
+Each time you login to a new session and you want to run any of the scripts you will 
+need to set the environment with:
+
+```
+module load jaspy
+source venv/bin/activate
 ```
 
 ## Using Pandas to process CSV files
