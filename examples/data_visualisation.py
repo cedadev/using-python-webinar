@@ -11,7 +11,17 @@ __contact__ = 'richard.d.smith@stfc.ac.uk'
 
 import xarray as xr
 from collections import namedtuple
+import os
+import glob
+import cartopy.crs as ccrs
 import argparse
+
+# Need to set backend for use on JASMIN
+import matplotlib
+matplotlib.use('agg')
+
+import matplotlib.pyplot as plt
+
 
 # Create a BoundingBox object for convenience and make
 # it clear what is being used where
@@ -50,6 +60,7 @@ def extract_area(files, bbox):
 
         return region
 
+
 def check_timestep(value):
     """
     Validation function to check whether the user has supplied a valid timestep
@@ -61,16 +72,25 @@ def check_timestep(value):
     return value
 
 
-if __name__ == '__main__':
+def create_bounding_box(coordinates_list):
+    """
+    Process command line arguments and create a bounding box
+    :param coordinates_list: list of strings from command line
+    :return: BoundingBox
+    """
 
-    # Need to set backend for use on JASMIN
-    import matplotlib
-    matplotlib.use('agg')
+    # Turn bounding box arguments into integers
+    coords = [int(x) for x in coordinates_list]
 
-    import os
-    import glob
-    import cartopy.crs as ccrs
-    import matplotlib.pyplot as plt
+    # Create the bounding box
+    return BoundingBox(*coords)
+
+
+def parse_args():
+    """
+    Parse command line arguments
+    :return: Argparse object
+    """
 
     parser = argparse.ArgumentParser(
         description='Extract and area and timestamp and plot')
@@ -85,16 +105,20 @@ if __name__ == '__main__':
 
     parser.add_argument('--output', default='.', help='Directory to place the plot. Default: .')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    """
+    The main script
+    """
+
+    args = parse_args()
 
     # Get the files to process
     files = glob.glob(os.path.join(args.directory, f'*{args.timestep}.nc'))
 
-    # Turn bounding box arguments into integers
-    coords = [int(x) for x in args.bbox]
-
-    # Create the bounding box
-    bbox = BoundingBox(*coords)
+    bbox = create_bounding_box(args.bbox)
 
     # Extract the region of interest
     roi = extract_area(files, bbox)
@@ -114,3 +138,9 @@ if __name__ == '__main__':
 
     # Save plot
     plt.savefig(output)
+
+
+if __name__ == '__main__':
+
+    main()
+
