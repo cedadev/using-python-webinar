@@ -39,7 +39,7 @@ def extract_annual_statistics(filename, header_line):
     # Select the precipitation column
     precip = df.prcp_amt
 
-    # Extract the min, max and mean annual precipitation amound
+    # Extract the min, max and mean annual precipitation amount
     min_p = precip.min()
     max_p = precip.max()
     mean_p = precip.mean()
