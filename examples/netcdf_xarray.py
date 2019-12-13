@@ -1,6 +1,6 @@
 # encoding: utf-8
 """
-
+Extract annual mean temperature from a timeseries over the UK
 """
 __author__ = 'Richard Smith'
 __date__ = '03 Dec 2019'
@@ -74,7 +74,7 @@ def main():
     print('[INFO] Extracting UK time series...')
     uk_region = extract_uk_timeseries(files)
 
-    # Resample to get average annual temperature
+    # Re-sample to get average annual temperature
     uk_region = uk_region.resample(time='1Y').mean()
 
     # Write the output

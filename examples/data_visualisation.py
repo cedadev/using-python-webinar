@@ -71,20 +71,6 @@ def check_timestep(value):
     return value
 
 
-def create_bounding_box(coordinates_list):
-    """
-    Process command line arguments and create a bounding box
-    :param coordinates_list: list of strings from command line
-    :return: BoundingBox
-    """
-
-    # Turn bounding box arguments into integers
-    coords = [int(x) for x in coordinates_list]
-
-    # Create the bounding box
-    return BoundingBox(*coords)
-
-
 def parse_args():
     """
     Parse command line arguments
@@ -98,11 +84,27 @@ def parse_args():
     parser.add_argument('directory',
                         help='Directory containing source files')
 
-    parser.add_argument('--timestep', type=check_timestep, help='Options: 0000 0600 1200 1800. Default: 0000', default='0000')
+    parser.add_argument(
+        '--timestep',
+        type=check_timestep,
+        help='Options: 0000 0600 1200 1800. Default: 0000',
+        default='0000'
+    )
 
-    parser.add_argument('--bbox',nargs=4, metavar='COORDINATE', help='Format: N,S,E,W. Default: global', default=[90,-90, 180, -180])
+    parser.add_argument(
+        '--bbox',
+        nargs=4,
+        metavar='COORDINATE',
+        type=int,
+        help='Format: N,S,E,W. Default: global',
+        default=[90, -90, 180, -180]
+    )
 
-    parser.add_argument('--output', default='.', help='Directory to place the plot. Default: .')
+    parser.add_argument(
+        '--output',
+        default='.',
+        help='Directory to place the plot. Default: .'
+    )
 
     return parser.parse_args()
 
@@ -119,7 +121,9 @@ def main():
     fpath = os.path.join(args.directory, f'*{args.timestep}.nc')
     files = glob.glob(fpath)
 
-    bbox = create_bounding_box(args.bbox)
+    # Create bounding box *args.bbox un-packs the list into arguments for the function
+    # Same as writing bbox = BoundingBox(args.bbox[0],args.bbox[1],args.bbox[2],args.bbox[3])
+    bbox = BoundingBox(*args.bbox)
 
     # Extract the region of interest
     print(f'[INFO] Extracting region of interest: {bbox}')

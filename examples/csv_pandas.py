@@ -66,7 +66,7 @@ def get_station_name(directory):
     :return: station_name
     """
 
-    # Remove trailing path seperator
+    # Remove trailing path separator
     if directory.endswith('/'):
         directory = directory[:-1]
 
